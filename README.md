@@ -69,7 +69,7 @@
         "IoTHub": {
             "MessageId": null,
             "CorrelationId": null,
-            "ConnectionDeviceId": "bacnetgw-nttdc",
+            "ConnectionDeviceId": "bacnetgw-xxx",
             "ConnectionDeviceGenerationId": "637321770918468852",
             "EnqueuedTime": "2020-08-04T23:09:52.0000000"
         }
@@ -111,9 +111,9 @@
 
 16. Start Job/Confirm OutPut in Blob/Stop Job
     ```
-    {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":0,"timestamp":"2020-08-04T23:26:50.4820000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":1,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":25.7406368255615,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-nttdc","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
-    {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":1,"timestamp":"2020-08-04T23:26:50.4980000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":2,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":19.261812210083,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-nttdc","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
-    {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":2,"timestamp":"2020-08-04T23:26:50.5030000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":3,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":16.0978870391846,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-nttdc","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
+    {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":0,"timestamp":"2020-08-04T23:26:50.4820000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":1,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":25.7406368255615,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-xxx","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
+    {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":1,"timestamp":"2020-08-04T23:26:50.4980000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":2,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":19.261812210083,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-xxx","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
+    {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":2,"timestamp":"2020-08-04T23:26:50.5030000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":3,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":16.0978870391846,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-xxx","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
     .....
     ```
 17. Create EventHub
