@@ -1,5 +1,5 @@
 
-
+## Create IoTHub and Start to send data
 1. Create IoTHub
 2. Create Device
 3. Copy Device Connection String
@@ -14,11 +14,13 @@
     - Start Monitoring Message
       ![Azure IoT Explorer](./images/AzureIoTExplorer.png)
 6. Create Consumer Group
+
+## Create Stream Analytics and Extract Array BACnet data from BACnet Gateway
 7. Create Stream Analytics Job
-8. Create Blob Container
-9. Create Input
-10. Create Output for Blob
-11. Set Query for Blob
+8. Create Input from IOTHub Stream
+9. Create Blob Container to set up output
+10. Create Output to Blob
+11. Set Query for Blob output
     ```
     SELECT
     *
@@ -75,9 +77,41 @@
         }
     }
     ```
+    BACnet Standard Message Format from BACnet Gateway is below
 
-14. Stop Job
-15. Custmize Query for Blob
+    - Scan Data
+    Commnad's messageTypes are Write(Statndard Telemetry), COV, Event.
+    Telemetry Data is array. 
+    ```
+    {
+        "Command":"massageType",
+        "System_id":SystemId,
+        "Device_id":DeviceId,
+        "ValueString":[
+            {Telemetry Data},
+            {Telemetry Data},
+            {Telemetry Data},
+            .....
+        ]
+    }
+    ```
+    - Telemetry Data
+    ```
+    {
+        “TimeStamp”:”yyyy-mm-ddTHH:MM:SS.ffffff+zz:zz",
+        "BACnetDevice":BACnetDeviceInstanceNumber,
+        "BACnetObject":BACnetObjectIdentifier,
+        “Properties":{
+            "PresentValue”:xxx,
+            "StatusFlags":BACnetStatusFlags
+            "ElapsedActiveTime":xxx,
+            "ChageOfStateCount:xxx
+        }
+    }
+    ```
+
+14. Stop Job to edit
+15. Custmize Query for Blob to Extract Array
     ```
     WITH streamdata as(
         SELECT
@@ -116,12 +150,13 @@
     {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":2,"timestamp":"2020-08-04T23:26:50.5030000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":3,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":16.0978870391846,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-xxx","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
     .....
     ```
-17. Create EventHub
-18. Create Output for EventHub
+## Create EventHub as an Aggregator to gather multipul IoT Systems 
+17. Create EventHub as an Aggregator
+18. Create Stream Analytics Output and EventHub's namespace
 
     ![ASA Output Setting for EventHub](./images/ASA-CreateEventHubOutput.png)
 
-19. Set Query for EventHub
+19. Add Query for EventHub
     ```
     SELECT 
         * 
@@ -131,14 +166,30 @@
         streamdata
     ```
 
-20. Start Job
-21. Confirm Ingress in EventHub
+20. Start Stream Analytics Job
+21. Confirm Ingress data in EventHub
     ![EventHub](./images/EventHub.png)
 22. Create Blob Container(for EventHub Caputure) 
-23. Set EventHub Capture
+23. If need, Set EventHub Capture
 
     ![EventHubCapture](./images/EventHub-Capture01.png)
 
+   Mmessage format is Avro
 
+## Create EventHub Trigger Functions App to ingress data to PostgreSQL
+24. Create Function App
+25. Create Function, Press Add Button
+    ![CreateFunction](./images/25_CreateFunction.png)
 
+26. Choose EventHub Trigger
+    ![CreateFunction](./images/26_ChooseEventHubTrigger.png)
+
+27. Press New, and set EventHub Connection
+    Set your EventHub and EventHub namespace
+    ![CreateFunction](./images/27_setEventHubConnection.png)
+
+28. Set your EvnetHub name, Consumer Group name manually
+   ![CreateFunction](./images/28_setEventHubNameAndConsumerGroup.png)
+
+29. xxx
 
