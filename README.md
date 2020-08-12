@@ -79,9 +79,12 @@
     ```
     BACnet Standard Message Format from BACnet Gateway is below
 
+    - Refer to the [outputData01_Blob_direct.json](./outputData01_Blob_direct.json)
+
     - Scan Data
-    Commnad's messageTypes are Write(Statndard Telemetry), COV, Event.
-    Telemetry Data is array. 
+
+        - Commnad's messageTypes are Write(Statndard Telemetry), COV, Event.
+        - Telemetry Data is array. 
     ```
     {
         "Command":"massageType",
@@ -143,7 +146,11 @@
         streamdata
     ```
 
-16. Start Job/Confirm OutPut in Blob/Stop Job
+16. Start Job, Confirm OutPut in Blob, Stop Job
+
+    - Refer to the [outputData02_Blob_extract.json](./outputData02_Blob_extract.json)
+
+
     ```
     {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":0,"timestamp":"2020-08-04T23:26:50.4820000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":1,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":25.7406368255615,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-xxx","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
     {"command":"Write","system_id":"MSSGT30Fbacnet","device_id":"TestBACnetBridge","arrayindex":1,"timestamp":"2020-08-04T23:26:50.4980000Z","bacnetdevicenumber":100,"bo_base":"BACnetObjectIdentifier","objecttype":0,"instanceno":2,"sf_base":"BACnetStatusFlags","sf_value":[0,0,0,0],"value":19.261812210083,"EventProcessedUtcTime":"2020-08-04T23:28:37.9514018Z","PartitionId":0,"EventEnqueuedUtcTime":"2020-08-04T23:27:20.6200000Z","IoTHub":{"MessageId":null,"CorrelationId":null,"ConnectionDeviceId":"bacnetgw-xxx","ConnectionDeviceGenerationId":"637321770918468852","EnqueuedTime":"2020-08-04T23:27:20.0000000"}}
@@ -176,7 +183,7 @@
 - If you capture events, please select Standard Level SKU
 - If you want to confirm data timely under testing, Set Window Time and Window Size Minimum
     ![EventHubCapture](./images/22_EventHub-Capture01.png)
-    
+
     ![EventHubCapture](./images/22_EventHub-Capture02.png)
 
 23. Confirm Event Capture in the BLOB
