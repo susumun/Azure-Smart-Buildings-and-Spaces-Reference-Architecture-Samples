@@ -12,7 +12,7 @@
     - Set to Azure IoT Explorer
     - Select Telemetry
     - Start Monitoring Message
-      ![Azure IoT Explorer](./images/AzureIoTExplorer.png)
+      ![Azure IoT Explorer](./images/05_AzureIoTExplorer.png)
 6. Create Consumer Group
 
 ## Create Stream Analytics and Extract Array BACnet data from BACnet Gateway
@@ -152,9 +152,12 @@
     ```
 ## Create EventHub as an Aggregator to gather multipul IoT Systems 
 17. Create EventHub as an Aggregator
+
+    *If any error in the following steps, please make eventhub's namespace here
+
 18. Create Stream Analytics Output and EventHub's namespace
 
-    ![ASA Output Setting for EventHub](./images/ASA-CreateEventHubOutput.png)
+    ![ASA Output Setting for EventHub](./images/18_ASA-CreateEventHubOutput.png)
 
 19. Add Query for EventHub
     ```
@@ -167,14 +170,17 @@
     ```
 
 20. Start Stream Analytics Job
-21. Confirm Ingress data in EventHub
-    ![EventHub](./images/EventHub.png)
-22. Create Blob Container(for EventHub Caputure) 
-23. If need, Set EventHub Capture
+21. Confirm counting up the incmoming number of messages in EventHub
+    ![EventHub](./images/21_EventHub.png)
+22. Set EventHub Capture if you need. Create Blob Container to receive EventHub Caputure. 
+- If you capture events, please select Standard Level SKU
+- If you want to confirm data timely under testing, Set Window Time and Window Size Minimum
+    ![EventHubCapture](./images/22_EventHub-Capture01.png)
+    
+    ![EventHubCapture](./images/22_EventHub-Capture02.png)
 
-    ![EventHubCapture](./images/EventHub-Capture01.png)
-
-   Mmessage format is Avro
+23. Confirm Event Capture in the BLOB
+- Message format is Avro
 
 ## Create EventHub Trigger Functions App to ingress data to PostgreSQL
 24. Create Function App
@@ -191,5 +197,81 @@
 28. Set your EvnetHub name, Consumer Group name manually
    ![CreateFunction](./images/28_setEventHubNameAndConsumerGroup.png)
 
-29. xxx
+29. add function.proj
+    ```
+    <Project Sdk="Microsoft.NET.Sdk">
+        <PropertyGroup>
+            <TargetFramework>netstandard2.0</TargetFramework>
+        </PropertyGroup>
+        <ItemGroup>
+            <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+            <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+        </ItemGroup>
+    </Project>
+    ```
+30. Copy to CSX Script(Please replace PostgreSQL login info)
+    ```
+    #r "Microsoft.Azure.EventHubs"
+    using System;
+    using System.Text;
+    using Microsoft.Azure.EventHubs;
+    using Npgsql;
+
+    private static string Host = "HOST";
+    private static string User = "USER@XXX";
+    private static string DBname = "DBNAME";
+    private static string Password = "PASS";
+    private static string Port = "5432";
+
+    public static async Task Run(EventData[] events, ILogger log)
+    {
+        var exceptions = new List<Exception>();
+        string connString = string.Format("Server={0};Username={1};Database={2};Port={3};Password={4};SSLMode=Prefer", Host, User, DBname, Port, Password);
+        string sql = "";
+
+        using (var conn = new NpgsqlConnection(connString)){
+            conn.Open();
+
+
+            foreach (EventData eventData in events)
+            {
+                try
+                {
+                    string messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
+
+                    List<string> lists = new List<string>();
+                    lists.AddRange(messageBody.Split('\n'));
+                    log.LogInformation($"Target # of Array = {lists.Count()}");
+
+                    for(int i = 0; i < lists.Count(); i++) {
+                        sql = "INSERT INTO logs(content) values ('" + lists[i] + "');";
+                        using (var command = new NpgsqlCommand(sql, conn)) {
+                            command.ExecuteNonQuery();  
+                        }
+                    }
+
+                    await Task.Yield();
+                }
+                catch (Exception e)
+                {
+                    // We need to keep processing the rest of the batch - capture this exception and continue.
+                    // Also, consider capturing details of the message that failed processing so it can be processed again later.
+                    exceptions.Add(e);
+                }
+            }
+        }
+
+        // Once processing of the batch is complete, if any messages in the batch failed processing throw an exception so that there is a record of the failure.
+
+        if (exceptions.Count > 1)
+            throw new AggregateException(exceptions);
+
+        if (exceptions.Count == 1)
+            throw exceptions.Single();
+    }
+
+    ```
+31. Confirm Data in Target Database
+    - Inserted Table
+    - Notify/Listen/Dispatch logs
 
