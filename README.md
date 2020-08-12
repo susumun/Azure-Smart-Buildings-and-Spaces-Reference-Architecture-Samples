@@ -79,7 +79,7 @@
     ```
     BACnet Standard Message Format from BACnet Gateway is below
 
-    - Refer to the [outputData01_Blob_direct.json](./outputData01_Blob_direct.json)
+    - Refer to the sample [outputData01_Blob_direct.json](./outputData01_Blob_direct.json)
 
     - Scan Data
 
@@ -148,7 +148,7 @@
 
 16. Start Job, Confirm OutPut in Blob, Stop Job
 
-    - Refer to the [outputData02_Blob_extract.json](./outputData02_Blob_extract.json)
+    - Refer to the sample [outputData02_Blob_extract.json](./outputData02_Blob_extract.json)
 
 
     ```
